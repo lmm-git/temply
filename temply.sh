@@ -7,7 +7,7 @@
 ###########################################################################
 
 # main function you will call with your bash script
-function parseTemplate {
+function temply {
 	# replace tags which includes files ({include=FILENAME})
 	function replaceFiles {
 		echo "Replacing $1" >&2
