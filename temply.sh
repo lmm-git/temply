@@ -7,8 +7,6 @@ function parseTemplate {
 		local includePath=`dirname $1`
 		local re='(.*)\{include=([[:alnum:]_-.]+)\}(.*)'
 		while [[ $template =~ $re ]]; do
-			echo "${BASH_REMATCH[2]}" >&2
-			echo "REMATCHEND" >&2
 			local rep=$(replaceFiles ${includePath}/${BASH_REMATCH[2]})
 			local template="${BASH_REMATCH[1]}${rep}${BASH_REMATCH[3]}"
 		done
