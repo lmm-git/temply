@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###########################################################################
-# TEMPLY - an simple template engine written in bash
+# TEMPLY - a simple template engine written in bash
 # Author: Leonard Marschke <github@marschke.me>
 # License: MIT
 ###########################################################################
