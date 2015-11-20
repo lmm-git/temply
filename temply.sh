@@ -58,7 +58,7 @@ function temply {
 		local template="$1"
 		# build our regex to match variable tags
 		local startRe='(.*)\{if (((\$)?[[:alnum:]_.{}"]+) (==|!=|-gt|-lt|-le|-ge) ((\$)?[[:alnum:]_.{}"]+))\}(.*)'
-		local endRe='(.*)\{\/if\}(.*)'
+		# local endRe='(.*)\{\/if\}(.*)' <-- currently not needed
 
 		# do for all variable tags
 		while [[ $template =~ $startRe ]]; do
@@ -78,14 +78,19 @@ function temply {
 			for (( i=0; i<${#restStr}; i++ )); do
 				local checkStr="${checkStr}${restStr:$i:1}"
 				local innerIf="${innerIf}${restStr:$i:1}"
+
+				# empty the checkstring on newlines because we cannot have tags over multiple lines
+				if [ "${restStr:$i:1}" == $'\n' ]; then
+					local checkStr=''
+					continue
+				fi
+
+				# if we do not have a } at the enf of our checkstr our regexes cannot match (performance improvement)
 				if [ "${restStr:$i:1}" != '}' ]; then
 					continue
 				fi
-				if [[ "$checkStr" =~ $startRe ]]; then
-					# we found another if, so increase our open ifs
-					checkStr=''
-					let "openIf += 1"
-				elif [[ "$checkStr" =~ $endRe ]]; then
+
+				if [ "${checkStr:(-5)}" == '{/if}' ]; then
 					# we found a closing tag, so decrease our open ifs
 					checkStr=''
 					let "openIf -= 1"
@@ -93,6 +98,10 @@ function temply {
 					if [ "$openIf" -le 0 ]; then
 						break;
 					fi
+				elif [[ "$checkStr" =~ $startRe ]]; then
+					# we found another if, so increase our open ifs
+					checkStr=''
+					let "openIf += 1"
 				fi
 			done
 			# hmm if we get here the template is invalid
