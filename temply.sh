@@ -77,6 +77,9 @@ function temply {
 			for (( i=0; i<${#restStr}; i++ )); do
 				local checkStr="${checkStr}${restStr:$i:1}"
 				local innerIf="${innerIf}${restStr:$i:1}"
+				if [ "${restStr:$i:1}" != '}' ]; then
+					continue
+				fi
 				if [[ "$checkStr" =~ $startRe ]]; then
 					# we found another if, so increase our open ifs
 					checkStr=''
