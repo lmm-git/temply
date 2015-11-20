@@ -16,7 +16,7 @@ function temply {
 		# get the directory of the path in order to include all other files relativly
 		local includePath=`dirname $1`
 		# build our regex to match the include tags
-		local re='(.*)\{include=([[:alnum:]_-.\/]+)\}(.*)'
+		local re='(.*)\{include=([[:alnum:]_.\/]+)\}(.*)'
 		# do for all include tags
 		while [[ $template =~ $re ]]; do
 			# replace files recursivly
