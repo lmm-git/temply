@@ -54,6 +54,7 @@ function temply {
 	}
 
 	function handleIf {
+		echo "Processing if statements... This might take a while" >&2
 		local template="$1"
 		# build our regex to match variable tags
 		local startRe='(.*)\{if (((\$)?[[:alnum:]_.{}"]+) (==|!=|-gt|-lt|-le|-ge) ((\$)?[[:alnum:]_.{}"]+))\}(.*)'
