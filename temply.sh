@@ -33,7 +33,7 @@ function temply {
 	function replaceVars {
 		local template="$1"
 		# build our regex to match variable tags
-		local re='(.*)\{\$([[:alnum:]_-.]+)\}(.*)'
+		local re='(.*)\{\$([[:alnum:]_.]+)\}(.*)'
 		# do for all variable tags
 		while [[ $template =~ $re ]]; do
 			local key="${BASH_REMATCH[2]}"
